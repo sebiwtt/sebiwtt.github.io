@@ -39,6 +39,7 @@ minima:
   social_links:
     - { platform: github,  user_url: "https://github.com/sebiwtt" }
     - { platform: twitter, user_url: "https://twitter.com/sebiwette" }
+    - { platform: linkedin, user_url: "https://www.linkedin.com/in/sebastian-wette-8292211b0/" }
 
 header_pages:
   - about.md
