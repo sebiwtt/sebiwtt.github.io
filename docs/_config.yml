@@ -41,6 +41,7 @@ minima:
 
 header_pages:
   - about.md
+  - bio.md
 
 # Build settings
 theme: minima
