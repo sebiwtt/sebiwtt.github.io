@@ -1,29 +1,11 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-#
-# If you need help with YAML syntax, here are some quick references for you:
-# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
-# https://learnxinyminutes.com/docs/yaml/
-#
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-
 title: Sebastian Wette
 email: mail@sebastianwette.de
-description: >- # this means to ignore newlines until "baseurl:"
-  Lel
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://sebiwtt.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+description: >- 
+  This is the GitHub user-page of me, Sebastian Wette.
+  It is used to host a short bio as well as a blog about the current work I do.
+  There is also a section about useful resources that I came across, that may be useful to some people :)
+baseurl: "" 
+url: "https://sebiwtt.github.io" 
 twitter_username: sebiwette
 github_username: sebiwtt
 
@@ -37,16 +19,14 @@ minima:
         user_url: "https://www.linkedin.com/in/sebastian-wette-8292211b0/"
       }
 
-
 header_pages:
+  - Resources.md  
   - Bio.md
-  - Resources.md
-
+  
 author:
   name: Sebastian Wette
   email: "mail@sebastianwette.de"
 
-# Build settings
 theme: minima
 plugins:
   - jekyll-feed
