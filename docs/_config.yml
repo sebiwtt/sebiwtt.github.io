@@ -30,7 +30,6 @@ github_username: sebiwtt
 minima:
   skin: dark
   social_links:
-    - { platform: mail, user_url: "https://deduce.de" }
     - { platform: github, user_url: "https://github.com/sebiwtt" }
     - { platform: twitter, user_url: "https://twitter.com/sebiwette" }
     - {
