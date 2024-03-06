@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "POST-TITLE"
+title: "TEST-POST"
 date: 2024-03-05 00:00:00 -0000
 categories: CATEGORY-1 CATEGORY-2
 ---
 
- ## Test Post
+## Test Post
 This post is only used to test the layout of the theme!
 
 - Bullet Points
@@ -24,4 +24,4 @@ print("hello world")
 
 This will be a [Link](https://test.com)
 
-![Test Image](https://sebiwtt.github.io/img/dog.png)
+![Test Image](https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop%253D0.752xw%253A1.00xh%253B0.175xw%252C0%2526resize%253D1200%253A%252A)
