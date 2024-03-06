@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Test Post"
-date: 2024-03-06 13:50:00 -0000
-categories: Python 
+title: "POST-TITLE"
+date: 2024-03-05 00:00:00 -0000
+categories: CATEGORY-1 CATEGORY-2
 ---
 
-## Test Post
+ ## Test Post
 This post is only used to test the layout of the theme!
 
 - Bullet Points
