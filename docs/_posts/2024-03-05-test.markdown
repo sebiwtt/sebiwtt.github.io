@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "TEST-POST"
+title: "A post for testing the functionality of this blog"
 date: 2024-03-05 00:00:00 -0000
-categories: CATEGORY-1 CATEGORY-2
+categories: Python
 ---
 
 ## Test Post
