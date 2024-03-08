@@ -6,4 +6,5 @@ categories: Online-Learning MLOps
 ---
 
 ## Why do we need online MLOps?
+It is cool :D
 ![Alt text](/img/oMLOps.jpg)
