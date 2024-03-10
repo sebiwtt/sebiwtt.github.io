@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "MLOps for online learning"
+title: "MLOps for online machine learning"
 date: 2024-03-08 00:00:00 -0000
 categories: Online-Learning MLOps
 ---
@@ -48,7 +48,7 @@ Each ML model is encapsulated within its own microservice or web-service, for ex
 
 The more complex part of the MLOps system would be the central "controller software," which manages all these containers/pods. It facilitates functions such as monitoring, versioning, tuning, among others. This is a more advanced component. It can automatically manage and configure model containers based on various signals like performance metrics, cost, time, etc.
 
-![A Diagram of the core idea behind "Delta"](/img/oMLops.jpg)
+![A Diagram of the core idea behind "Delta"](/img/oMLOps.jpg)
 
 ## MVP
 This vision is indeed ambitious, and the task of building this system should be broken down into smaller, manageable tasks. The first version, the Minimum Viable Product (MVP), focuses on the core functionality of the model microservice. It won't be a full-fledged version with complete MLOps capabilities, but it will mark the first step of the journey and serve as a foundation for further development.
