@@ -6,7 +6,11 @@ categories: Online-Learning MLOps
 ---
 
 ## Why do we need online MLOps?
-The term "MLOps" is short for Machine Learning Operations. This topic brings together the practices of Machine Learning and Operations (as the name might suggest 😋). Some people like to think of it as the ML equivalent of "DevOps". ML Systems do not only consist of the ML Code (the model, training, etc.) but are so much more. Even though it's very nice to finally train a model that generates good results inside of a local jupyter-notebook, that's only a fraction of the work that needs to be done to actually ship a model to production and serve it to customers, have it monitored, and so on...
+The term "MLOps" is short for Machine Learning Operations. This topic brings together the practices of Machine Learning and Operations (as the name might suggest 😋). Some people like to think of it as the ML equivalent of "DevOps". MLOps focuses on optimizing the development and operational lifecycle of ML systems, as illustrated in the following [sketch](https://ml-ops.org/content/mlops-principles).
+
+![Image of MLOps "Workflow"](/img/MLOps.png)
+
+ML Systems do not only consist of the ML Code (the model, training, etc.) but are so much more. Even though it's very nice to finally train a model that generates good results inside of a local jupyter-notebook, that's only a fraction of the work that needs to be done to actually ship a model to production and serve it to customers, have it monitored, and so on...
 
 ![A Diagram of all things inside an ML System](/img/MLSystems.png)
 
