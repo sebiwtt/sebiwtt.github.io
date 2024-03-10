@@ -6,152 +6,81 @@ categories: Online-Learning MLOps
 ---
 
 ## Why do we need online MLOps?
-1. **Streamlined Development and Deployment:** MLOps streamlines the process of developing, deploying, and maintaining machine learning models. It integrates best practices from software development and IT operations, leading to more efficient and reliable model deployment.
+The term "MLOps" is short for Machine Learning Operations. This topic brings together the practices of Machine Learning and Operations (as the name might suggest 😋). Some people like to think of it as the ML equivalent of "DevOps". ML Systems do not only consist of the ML Code (the model, training, etc.) but are so much more. Even though it's very nice to finally train a model that generates good results inside of a local jupyter-notebook, that's only a fraction of the work that needs to be done to actually ship a model to production and serve it to customers, have it monitored, and so on...
 
-2. **Model Monitoring and Management:** Online MLOps tools provide capabilities for continuous monitoring and management of machine learning models. This ensures that the models are performing as expected and allows for quick adjustments in response to any performance degradation or changing data patterns.
+![A Diagram of all things inside an ML System](/img/MLSystems.png)
 
-3. **Automation:** MLOps automates many aspects of machine learning workflows, including data preprocessing, model training, validation, and deployment. This reduces manual efforts and errors, leading to faster and more consistent results.
+This graphic (from a [paper written by D. Sculley et al.](https://proceedings.neurips.cc/paper_files/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf)) depicts what a typical ML System may consist of. It is clear to see that the ML Code is only a small part of the big picture. The lifecycle of such a complex system needs to be managed for it to run smoothly. This is where MLOps comes into play. 
 
-4. **Scalability:** As machine learning applications grow, managing them becomes more complex. MLOps provides the infrastructure and processes needed to scale ML applications efficiently, handling increasing data volumes and complexity without sacrificing performance.
+It focuses on streamlining and automating the lifecycle of machine learning models, from development to deployment and maintenance. MLOps aims to create a collaborative and efficient (partly or fully automated) workflow to enable faster, reproducible, and more effective deployment of AI models into production while also reducing manual efforts and the possibility of human error. Furthermore, MLOps can also handle the infrastructure and processes needed to scale ML applications efficiently. Among others, it involves practices like:
 
-5. **Collaboration and Reproducibility:** MLOps facilitates better collaboration among data scientists, engineers, and IT professionals. It also enhances reproducibility in machine learning projects, making it easier to track changes, version models, and maintain a consistent environment.
-
-6. **Compliance and Security:** In industries where compliance and data security are crucial, MLOps provides frameworks to ensure that machine learning models comply with regulatory standards and are secure from potential threats.
-
-7. **Faster Time to Market:** By automating and streamlining many aspects of the machine learning lifecycle, MLOps helps organizations reduce the time it takes to move from model development to deployment, thereby enabling faster delivery of ML-driven solutions to the market.
-
-8. **Cost Efficiency:** Effective MLOps can lead to more cost-efficient use of resources, as it helps optimize computational resources needed for training and inference, and reduces the need for manual intervention.
-
-ML Systems are not only ML Code. Train some nice model in a jupyter notebook and have it perform some inference is nice but it takes more to actually host a model in production and serve it to customers + monitoring 
--> Image from "Hidden technical debt"
-
-Concept Drift is a problem in production
-
-There is high demand for toolchains that support MLOps end-to-end (especially online scenario)
-
-Things like: 
 - CI/CD Automation
-- Workflow orchestration
-- Reproducibility
+- Workflow Orchestration
 - Versioning
-- Collaboration
-- Continuous ML training & evaluation
-- ML Metadata tracking / logging
-- Continuous monitoring
-- Feedback loops
+- Continuous ML Training & Evaluation
+- ML Metadata Tracking / Logging
+- Continuous Monitoring
+- Hyperparameter Tuning
+- ...
+
+The emphasis here lies on reliability, scalability, and governance of machine learning systems. These approaches ensure that AI models remain accurate, efficient, and relevant over time. Tools in this field often provide capabilities for continuous monitoring and management of machine learning models, ensuring they perform as expected and allowing for quick adjustments in response to performance degradation or changing data patterns (also known as Concept Drift, a common problem encountered when transitioning from development to production).
+
+While there are already numerous tools and frameworks available for MLOps, there is still a demand for reliable toolchains that support MLOps end-to-end, especially in "online learning" scenarios.
 
 ## Online Machine Learning 
-Online Machine Learning is a type of machine learning where the algorithm continuously learns and adapts from a stream of incoming data. In this approach, models are updated in real-time or near-real-time as new data arrives, allowing them to respond quickly to changes and new patterns. This contrasts with traditional batch learning, where a model is trained on a fixed set of data and doesn't update until it's retrained with a new dataset. Online learning is particularly useful in situations where data is generated continuously and rapidly, such as in financial markets, real-time recommendation systems, or sensor networks.
+Online learning describes a special subfield of Machine Learning, in which an online ML algorithm is able to continuously learn and adapt from a stream of incoming data. With this approach, models are updated in real-time as new data arrives, allowing them to respond quickly to changes and new patterns (e.g., Concept Drift). This contrasts with traditional "batch learning," where a model is trained on a fixed batch of data and doesn't update until it's retrained with a new dataset. A popular Python library for online ML (somewhat in the fashion of scikit-learn) is [River](https://github.com/online-ml/river).
 
-Cope with drift: Check
-
-ref River and ref Beaver
+While online models are capable of coping with Concept Drift, they present unique challenges in terms of deployment and operation in production environments. Therefore, there are already efforts to build MLOps tools specialized in online ML. One such tool being developed by some of the developers behind River is [Beaver](https://github.com/online-ml/beaver), for example.
 
 ## Delta 
-Online ML is a topic I have some experience with and I am also familiar with a lot of DevOps tools and concepts (worked in automation). Also already worked on some tooling for deploying River OL models easily 
+Since I have some experience with online ML (having worked on it privately and for my bachelor's thesis), I find MLOps very interesting. This led me to consider working on such tooling myself. Additionally, I have a background in automation projects and DevOps, having worked in a network automation team at Deutsche Telekom Technik, a leading telecommunications company, during my bachelor studies. During this period, I also explored integrating River models with the lightweight web development framework Flask.
 
-I find the topic very interesting, thats why i want to work on such tooling 
+So, now that I've decided to work on MLOps for online learning, a term I like to call 'oMLOps,' one of the first things I needed to figure out was, of course, a name for the project. Since the online ML library is called River, I thought about a place where many rivers cross and interact with each other (or flow in parallel) and came across river deltas, hence the name "Delta".
 
-- Modell(e) in Production als eigenständiger **Microservice** (web) - z.B. als **Docker-Container**
-    - Two APIs: **Public** (for training, inference …) and **Management** (Query Metrics, Parameters, update Model)
-- Controller ist zentrale Steuerung all dieser Container
-    - Realisiert überwachung aller Modell-Container und Logik für Versionierung, Tuning usw.
-    - Config und neue Modell per GitOps?
+Putting jokes aside, the first challenge was to strategize tackling the enormous task of building an MLOps tool and how to realize the different aspects of such a system. My idea is based on the fact that a single instance of an online learner is pretty lightweight. Additionally, River does not work with things like numpy-arrays but with plain Python dictionaries. Since these dictionaries can be easily represented as a JSON payload, integrating River models into a web-service is pretty straightforward...
 
-Microservices for ML Models: This is a scalable and flexible approach. Each ML model is encapsulated within its microservice, allowing for independent deployment, scaling, and updating. Containerization, possibly using technologies like Docker, would facilitate this.
+### The core idea
+Each ML model is encapsulated within its own microservice or web-service, for example, as its own Docker container or Pod. A single instance of such a container should be as simple as possible as this allows for independent deployment, scaling, and updating. Such a container provides two REST APIs:
 
-REST APIs:
-    Public API for Training and Inference: This makes the model accessible for real-time predictions and allows for continuous learning by feeding new data. This API must be robust, secure, and capable of handling high throughput.
-    Management API: This is crucial for MLOps, enabling monitoring, configuration, and control of the model services. Through this API, you can fetch metrics, update model parameters, and manage the lifecycle of the model.
+- "Public" API for Training and Inference: This makes the model accessible for real-time predictions and allows for continuous learning by feeding new data via an API call together with a JSON payload. 
 
-Controller Software: This is a more advanced component, which could use principles from AI-Ops. It can automatically manage and configure model containers based on various signals like performance metrics, cost, time, etc. This could involve:
-    Auto-scaling services based on demand.
-    Implementing model version control and rolling updates.
-    Automated retraining policies based on model drift or performance degradation.
-    Resource optimization (CPU, memory usage).
+- "Management" API: This is crucial for MLOps, enabling monitoring, configuration, and control of the model services. Through this API, developers or other parts of the MLOps system can fetch metrics, update model parameters, and manage the lifecycle of the model.
+
+The more complex part of the MLOps system would be the central "controller software," which manages all these containers/pods. It facilitates functions such as monitoring, versioning, tuning, among others. This is a more advanced component. It can automatically manage and configure model containers based on various signals like performance metrics, cost, time, etc.
+
+![A Diagram of the core idea behind "Delta"](/img/oMLops.jpg)
 
 ## MVP
-Include MIRO Architecture Sketch 
+This vision is indeed ambitious, and the task of building this system should be broken down into smaller, manageable tasks. The first version, the Minimum Viable Product (MVP), focuses on the core functionality of the model microservice. It won't be a full-fledged version with complete MLOps capabilities, but it will mark the first step of the journey and serve as a foundation for further development.
 
-Docker Container that serves API Endpoints 
+The result of this first iteration will be a container (or rather, a basic image to build this container) hosting a small Flask web service comprising two different APIs. The service's core will be a binary classification model from the River library. Initially, this model will be fixed, with plans to make the 'core-model' configurable by the user in the future. The "Public" API will expose two endpoints: one for training the model and another for making predictions. The "Management" API will expose a single endpoint for querying metrics, such as the model's accuracy. A Swagger YAML or JSON file will describe the API. This simple setup will be tested using one of River's simpler datasets, with tests conducted manually using tools like Postman or Insomnia, or automated.
 
-- Binary Classification Online Model
-    - Find simple Dataset
-    - Build minimal API to use it as a webservice
-    - Build minimal management API
-    - Develope From here
-- Build inside basic Docker-Image
-- GitHub Actions for tests / image building and publishing
-- API Testing with Postman
-- SWAGGER File for API description?
+Implementing automated CI/CD workflows using GitHub Actions to automatically build a container, publish the image, and run automated tests would be beneficial.
 
-Define the ML Model with River:
-    First, define your model using the River library. River is excellent for online learning scenarios due to its incremental learning capabilities.
-    Ensure your model code is modular and can be easily integrated into different environments.
+The plan for the MVP can be transformed into the following steps:
 
-Develop the Web Service Wrapper:
-    Create a Python web service, using frameworks like Flask or FastAPI, that will serve as the interface for your model.
-    Implement the RESTful APIs as you've planned: one for training and inference, and another for management and metrics.
-    Ensure that your web service can deserialize incoming data for predictions and serialize the predictions as responses.
-
-Containerize the Web Service:
-    Write a Dockerfile that specifies how to build your container. This will include the installation of Python, the River library, your chosen web framework, and any other dependencies.
-    Ensure the container exposes the correct ports for the APIs.
-
-Test the Container Locally:
-    Before proceeding to Kubernetes or any cloud platform, test the container on your local machine. Ensure both the APIs are working as expected.
-
-Prepare for Kubernetes Deployment:
-    Once local testing is successful, prepare your container for Kubernetes deployment. This involves creating Kubernetes manifests (like Deployments, Services, etc.).
-    If you plan on scaling or managing multiple containers, consider using Helm charts for easier management.
-
-CI/CD Pipeline:
-    Set up a continuous integration and continuous deployment (CI/CD) pipeline. This will automate the process of testing your code and deploying it to production.
-    Tools like Jenkins, GitLab CI/CD, or GitHub Actions can be used for this purpose.
-
-Monitoring and Logging:
-    Integrate monitoring and logging solutions into your deployment to keep track of the model's performance and health.
-    Consider tools like Prometheus for monitoring and ELK Stack (Elasticsearch, Logstash, Kibana) for logging.
-
-Security Considerations:
-    Implement necessary security measures, especially for the training API to prevent data poisoning attacks.
-    Use HTTPS for your APIs, and implement authentication and authorization as needed.
-
-Documentation and User Guide:
-    Document the entire setup, including how to deploy the model, how to interact with the APIs, and any troubleshooting tips.
-    This will be crucial for users to understand how to use and deploy your models effectively.
+1. Define the ML Model with River.
+2. Develop the Web Service "Wrapper."
+3. Containerize the Web Service.
+4. Test the Container Locally.
+5. Automate workflows for building, testing, and publishing (CI/CD Pipeline).
 
 ## Future course of action  
-Flexible Model Loading
+The presented MVP leaves room for a lot of improvements and further features. For instance, the core machine learning model of each container needs to be dynamically defined. This could be achieved by using a configuration file, such as JSON or YAML, which is fed into the container during the build process. Alternatively, users could configure this through a live-service API endpoint. A combination of both methods might be the most effective approach.
 
-Configuration Mechanism:
-Decide on a mechanism for providing the configuration to each container instance. Options include:
-Environment Variables: Easy to use but less flexible for complex configurations.
-Config Files: More flexible, can be mounted into the container at runtime.
-API Endpoint: An endpoint in your service to accept configuration details (like model choice) before starting regular operations.
+Other areas that need to be addressed in future developments (among many more) include:
 
-Initial Configuration File:
+- Monitoring and logging
+- Expanded functionality for the APIs
+- Version control
+- Scalability
+- Hyperparameter tuning
+- Validation and error handling
+- Security
+- Testing
+- Documentation and examples
 
-Create a standard format for the configuration file. JSON or YAML are popular choices due to their readability and ease of use.
-This file should include necessary parameters to initialize the model, such as the type of model, initial parameters, etc.
-When the container starts, your web service reads this configuration file to initialize the model.
+## Final words 
+Thank you very much for reading this far. I intend to use this blog as an informal platform to update on the development process and to help structure my work. If I can also arouse the interest of some readers, that's a big bonus for me. The code base for the Delta Project can be found in the official [repository](https://github.com/sebiwtt/Delta). Feel free to contact me in any way if you want to chat about the topic (or others) 😁.
 
-Management API for Runtime Configuration:
-
-Develop a management API endpoint in your web service that allows users to update or redefine the model configuration.
-This endpoint should accept new configuration parameters and apply them to reinitialize or adjust the model as needed.
-Ensure this API has proper security measures to prevent unauthorized access.
-
-Security: Ensure that both public and management APIs are secure. Authentication and authorization are key, especially for the training API to prevent malicious data injections.
-
-Monitoring and Logging: Integral for understanding model performance and identifying issues.
-
-Version Control: Essential for tracking changes in the model and its configuration.
-
-Scalability: Your architecture should handle varying loads efficiently.
-
-Testing and Validation: Before deploying any model, it must be thoroughly tested.
-
-Validation and Error Handling
-
-Documentation and Examples
+Until next time, take care!
